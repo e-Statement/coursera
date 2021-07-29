@@ -5,13 +5,44 @@
 .users-item {
   display: block;
   margin: 10px;
-  font-size: 20px;
+  font-size: 17px;
   background-color: rgba(123,233,45,0.15);
   width: fit-content;
   cursor: pointer;
   transition: 0.15s all linear;
+  border: none;
 }
 
 .users-item:hover {
   background-color: bisque;
 }
+
+.App {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.stats {
+  right: 100px;
+  width: 1000px;
+}
+
+.course {
+  display: flex;
+  justify-content: space-between;
+}
+
+.course > h3 {
+  margin: 10px 0px;
+}
+/*
+#specs-title {
+  background-color: rgba(71, 119, 113, 0.5);
+}
+
+#courses-title {
+  background-color: rgba(71, 119, 113, 0.5);
+}
+*/
+
+
