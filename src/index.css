@@ -1,3 +1,8 @@
+body {
+  background-color: #8db6a7;
+  font-family: 'Roboto', sans-serif;
+}
+
 .user-info {
   border: 1px solid black;
 }
@@ -6,11 +11,13 @@
   display: block;
   margin: 10px;
   font-size: 17px;
-  background-color: rgba(123,233,45,0.15);
+  background: none;
   width: fit-content;
   cursor: pointer;
   transition: 0.15s all linear;
   border: none;
+  margin: 10px 0;
+  padding: 0;
 }
 
 .users-item:hover {
@@ -18,12 +25,13 @@
 }
 
 .App {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .stats {
-  right: 100px;
   width: 1000px;
 }
 
@@ -35,14 +43,36 @@
 .course > h3 {
   margin: 10px 0px;
 }
-/*
-#specs-title {
-  background-color: rgba(71, 119, 113, 0.5);
+
+#find {
+  border: none;
+  border-radius: 10px;
+  width: 300px;
+  height: 30px;
+  font-size: 15px;
+  background-color: rgb(241, 231, 231);
+  transition: 0.25s all linear;
 }
 
-#courses-title {
-  background-color: rgba(71, 119, 113, 0.5);
+#find:focus {
+  outline: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
-*/
+
+.users {
+  height: 200px;
+}
+
+.search-list {
+  max-height: 200px;
+  width: 304px;
+  overflow-y: auto;
+  background-color: rgb(241, 231, 231);
+  position: absolute;
+  top: 35px;
+  display: none;
+  transition: 0.25s all linear;
+}
 
 
