@@ -11,7 +11,12 @@ export const fetchAndParseCsv = async (fileName) => {
 
 export const findUser = (userName , users) => {
     if (userName === "") return []
-    return Object.keys(users).filter(x => x.toLowerCase().includes(userName.toLowerCase()))
+    let result = users.filter(x => {
+        if (x === undefined) return false
+        return x.toLowerCase().includes(userName.toLowerCase())
+    })
+
+    return result;   
 }
 
 export const validateUserName = (name) => {
@@ -38,7 +43,7 @@ export const coursesChartSettings = (student) => {
                   },
                 }
             },
-            colors: student.courses.map(course => course.completed == 'Yes' ? '#7FB069' : '#CA3C25'),
+            colors: student.courses.map(course => course.completed === 'Yes' ? '#7FB069' : '#CA3C25'),
             dataLabels: {
                 enabled: true,
                 textAnchor: 'start',
@@ -67,7 +72,7 @@ export const coursesChartSettings = (student) => {
                 }
             },
             title: {
-                text: 'Прогресс курсов',
+                text: 'Прогрессы курсов',
                 align: 'center',
                 floating: true
             },
@@ -91,3 +96,86 @@ export const coursesChartSettings = (student) => {
         }            
 }
 }
+
+export const coursesGradesChartSettings = (student) => {
+    return {
+        series:[{
+            data:student.courses.map(course => course.grade)
+        }],
+        options: {
+            chart: {
+                width:500,
+                height:350,
+                type: 'bar',
+                events: {
+                    click:function(chart,w,e){}
+                }
+            },
+            colors:["#204de3"],
+            plotOptions: {
+                bar: {
+                    columnWidth:'75%',
+                    distributed: true,
+                }
+            },
+            title: {
+                text: 'Оценки курсов',
+                align: 'center',
+                floating: true
+            },
+            dataLabels: {
+                enabled: true,
+                style: {
+                    fontSize: '15px',
+                    colors: ['#000']
+                },
+                offsetY: -20,
+            },
+            legend: {
+                show: false
+            },
+            yaxis: {
+                max: 100
+            },
+            xaxis: {
+                categories:student.courses.map(course => [course.name]),
+                labels: {
+                    style: {
+                      colors: ["#000"],
+                      fontSize: '15px'
+                    }
+                  }
+            }
+        }
+    }
+}
+
+export const coursesGradesPolarChartSettings = (student) => {
+    return {
+        series: student.courses.map(course => course.grade),
+            options: {
+              chart: {
+                type: 'polarArea',
+              },
+              stroke: {
+                colors: ['#fff']
+              },
+              labels: student.courses.map(course => course.name),
+              fill: {
+                opacity: 0.8
+              },
+              responsive: [{
+                breakpoint: 480,
+                options: {
+                  chart: {
+                    width: 200
+                  },
+                  legend: {
+                    position: 'bottom'
+                  }
+                }
+              }]
+            },  
+        }
+    }
+

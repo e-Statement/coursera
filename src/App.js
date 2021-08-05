@@ -7,7 +7,7 @@ import React from 'react';
 export const AppContext = React.createContext(null)
 
 function App() {
-  const [users,setUsers] = useState({})
+  const [users,setUsers] = useState([])
   const [foundUsers,setFoundUsers] = useState([])
   const [currentUser,setCurrentUser] = useState()
 

@@ -24,15 +24,9 @@ body {
   background-color: bisque;
 }
 
-.App {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 .stats {
-  width: 1000px;
+  
+  margin-left: 200px;
 }
 
 .course {
@@ -45,6 +39,9 @@ body {
 }
 
 #find {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
   border: none;
   border-radius: 10px;
   width: 300px;
@@ -62,6 +59,7 @@ body {
 
 .users {
   height: 200px;
+  
 }
 
 .search-list {
@@ -73,6 +71,22 @@ body {
   top: 35px;
   display: none;
   transition: 0.25s all linear;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.charts {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+
+.courses {
+
+}
+
+.grades {
+  
+
 }
 
 
