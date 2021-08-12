@@ -23,10 +23,10 @@ export const validateUserName = (name) => {
     return name !== "ANONYMIZED_NAME" && name !== "" && name !== undefined && name !== null
 }
 
-export const coursesChartSettings = (student) => {
+export const coursesChartSettings = (courses) => {
     return {
         series:[{
-            data:student.courses.map(course => course.progress)
+            data:courses.map(course => course.progress)
         }],
         options:{
             chart:{
@@ -43,7 +43,7 @@ export const coursesChartSettings = (student) => {
                   },
                 }
             },
-            colors: student.courses.map(course => course.completed === 'Yes' ? '#7FB069' : '#CA3C25'),
+            colors: courses.map(course => course.completed === 'Yes' ? '#7FB069' : '#CA3C25'),
             dataLabels: {
                 enabled: true,
                 textAnchor: 'start',
@@ -63,7 +63,7 @@ export const coursesChartSettings = (student) => {
                 colors: ['#fff']
             },
             xaxis: {
-                categories: student.courses.map(course => course.name),
+                categories: courses.map(course => course.name),
                 max: 100
             },
             yaxis: {
@@ -97,14 +97,14 @@ export const coursesChartSettings = (student) => {
 }
 }
 
-export const coursesGradesChartSettings = (student) => {
+export const coursesGradesChartSettings = (courses) => {
     return {
         series:[{
-            data:student.courses.map(course => course.grade)
+            data:courses.map(course => course.grade)
         }],
         options: {
             chart: {
-                width:500,
+                width:"50%",
                 height:350,
                 type: 'bar',
                 events: {
@@ -138,7 +138,7 @@ export const coursesGradesChartSettings = (student) => {
                 max: 100
             },
             xaxis: {
-                categories:student.courses.map(course => [course.name]),
+                categories:courses.map(course => [course.name]),
                 labels: {
                     style: {
                       colors: ["#000"],
@@ -150,9 +150,9 @@ export const coursesGradesChartSettings = (student) => {
     }
 }
 
-export const coursesGradesPolarChartSettings = (student) => {
+export const coursesGradesPolarChartSettings = (courses) => {
     return {
-        series: student.courses.map(course => course.grade),
+        series: courses.map(course => course.grade),
             options: {
               chart: {
                 type: 'polarArea',
@@ -160,7 +160,12 @@ export const coursesGradesPolarChartSettings = (student) => {
               stroke: {
                 colors: ['#fff']
               },
-              labels: student.courses.map(course => course.name),
+              title: {
+                text: 'Оценки курсов',
+                align: 'center',
+                floating: true
+            },
+              labels: courses.map(course => course.name),
               fill: {
                 opacity: 0.8
               },
@@ -168,7 +173,7 @@ export const coursesGradesPolarChartSettings = (student) => {
                 breakpoint: 480,
                 options: {
                   chart: {
-                    width: 200
+                    
                   },
                   legend: {
                     position: 'bottom'

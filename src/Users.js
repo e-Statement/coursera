@@ -10,8 +10,14 @@ const course = (csvRow) => {
       completed:csvRow[13],
       grade:Math.floor(csvRow[19]),
       sertificateUrl:csvRow[20],
-      learningHours:Math.round((csvRow[12] + Number.EPSILON) * 100) / 100,
-      university:csvRow[6]
+      learningHours:csvRow[12].slice(0,4),
+      university:csvRow[6],
+      enrollmentTime:csvRow[7],
+      classStartTime:csvRow[8],
+      classEndTime:csvRow[9],
+      lastCourseActivityTime: csvRow[10],
+      completionTime:csvRow[18],
+      modules:[]
   }
 }
 
@@ -27,12 +33,53 @@ const specialization = (csvRow) => {
     }
 }
 
+const courseModule = (csvRow) => {
+  return {
+    userName:csvRow[3],
+    courseName:csvRow[5],
+    moduleName:csvRow[6],
+    lessonName:csvRow[7],
+    itemName:csvRow[8],
+    itemOrder:csvRow[9],
+    attemptGrade:csvRow[10],
+    gradeAfterOverride:csvRow[11],
+    isAttemptPassed:csvRow[12],
+    attemptTimestamp:csvRow[13],
+    itemAttemptOrderNumber:csvRow[14]
+  }
+}
 
-const getCurrentUser = (specializations,courses,username) => {
+const createItem = (module) => {
+  return {
+    itemName: module.itemName,
+    itemOrder: module.itemOrder,
+    attemptGrade: module.attemptGrade,
+    gradeAfterOverride: module.gradeAfterOverride,
+    isAttemptPassed: module.isAttemptPassed,
+    attemptTimestamp: module.attemptTimestamp,
+    itemAttemptOrderNumber: module.itemAttemptOrderNumber
+  }
+}
+
+const createLesson = (module) => {
+  return {
+    lessonName:module.lessonName,
+    items: []
+  }
+}
+
+const createModule = (module) => {
+  return {
+    courseName:module.courseName,
+    moduleName:module.moduleName,
+    lessons: []
+  }
+}
+
+
+const getCurrentUser = (specializations,courses,modules,username) => {
   var specs = specializations.filter(spec => spec.username === username)
-  var cours = courses.filter(cr => cr.username == username)
-  console.log(cours);
-
+  var cours = courses.filter(cr => cr.username === username)
   let specsWithCourses = []
   for (let i = 0; i < specs.length;i++) {
     specsWithCourses.push({
@@ -41,7 +88,7 @@ const getCurrentUser = (specializations,courses,username) => {
       completedCourses:specs[i].completedCourses,
       isCompleted:specs[i].isCompleted,
       university:specs[i].university,
-      courses:courses.filter(course => course.username === username && specs[i].university.includes(course.university.slice(0,10)))
+      courses:courses.filter(course => course.username === username && specs[i].university.includes(course.university.slice(0,15)))
     })
   }
 
@@ -50,10 +97,10 @@ const getCurrentUser = (specializations,courses,username) => {
     let continued = false;
     for (let k = 0; k < specsWithCourses.length;k++) {
       let filtered = specsWithCourses[k].courses.filter(course => {
-        return course.name == cours[i].name
+        return course.name === cours[i].name
       })
 
-      if (filtered.length != 0) {
+      if (filtered.length !== 0) {
         continued = true;
       }
     }
@@ -61,21 +108,27 @@ const getCurrentUser = (specializations,courses,username) => {
     coursesWithoutSpecs.push(cours[i])
   }
 
-  //console.log(coursesWithoutSpecs);
-
   specsWithCourses.push({
-    name:"Куры без специализации",
+    name:"Курсы без специализации",
     courses:coursesWithoutSpecs,
     coursesCount:coursesWithoutSpecs.length,
     completedCourses:coursesWithoutSpecs.filter(el => el.completed === "Yes").length,
     isCompleted: coursesWithoutSpecs.length === coursesWithoutSpecs.filter(el => el.completed === "Yes").length
   })
 
+  for (let i = 0; i < specsWithCourses.length;i++) {
+    for (let k = 0; k < specsWithCourses[i].courses.length;k++) {
+      console.log(specsWithCourses[i].courses[k].name);
+      let mods = modules[username].modules.filter(mod => mod.courseName === specsWithCourses[i].courses[k].name)
+      specsWithCourses[i].courses[k].modules = mods
+    }
+  }
+
 
   let res =  {
     specializations:specsWithCourses,
     name:username,
-    group:specs[0].group
+    group:specs[0]?.group
   }
   console.log(res);
   return res;
@@ -87,10 +140,11 @@ const Users = () => {
     const searchInput = useRef(null)
     const [specializations,setSpecializations] = useState([]) 
     const [courses,setCourses] = useState([]) 
+    const [modules,setModules] = useState([])
 
-    useEffect(() => {
-        fetchAndParseCsv('specialization.csv')
-        .then(arrays => {
+    useEffect(async () => {
+        await fetchAndParseCsv('specialization.csv')
+        .then(async arrays => {
           let specializations = []
           const users = []
 
@@ -106,8 +160,8 @@ const Users = () => {
           setSpecializations(specializations)
           return users;
         })
-        .then((users) => {
-          fetchAndParseCsv('usage.csv')
+        .then(async (users) => {
+          await fetchAndParseCsv('usage.csv')
           .then(arrays => {
             let courses = []
 
@@ -122,6 +176,46 @@ const Users = () => {
 
             setCourses(courses)
             app.setUsers([...new Set(users)])
+          })
+          return users;
+        })
+        .then(async users => {
+          await fetchAndParseCsv('urfu.csv')
+          .then(async arrays => {
+            let test = {}
+
+            for (let i = 0; i < users.length;i++) {
+              let userItems = arrays.filter(array => array[3] === users[i])
+              test[users[i]] = {
+                modules:[]
+              }
+              for (let k = 0; k < userItems.length;k++) {
+                let row = courseModule(userItems[k])
+                let module = createModule(row)
+                let item = createItem(row)
+                let lesson = createLesson(row)
+                
+                if (test[users[i]].modules.find(mod => mod.moduleName === module.moduleName)) {
+                  let mod = test[users[i]].modules.filter(mod => mod.moduleName === module.moduleName)[0]
+                  if (mod.lessons.find(less => less.lessonName === lesson.lessonName)) {
+                    mod.lessons.filter(less => less.lessonName === lesson.lessonName)[0].items.push(item)
+                  }
+                  else {
+                    lesson.items.push(item)
+                    mod.lessons.push(lesson)
+                  }
+                }
+                else {
+                  lesson.items.push(item)
+                  module.lessons.push(lesson)
+                  test[users[i]].modules.push(module)
+                }
+                
+              }
+              
+              
+            }
+            setModules(test)
           })
         })
     },[])
@@ -139,7 +233,7 @@ const Users = () => {
             app.foundUsers.map(user => 
             <button className="users-item" key={Math.random() * 1000} onClick={e => 
               {
-                let user = getCurrentUser(specializations,courses, app.users.filter(user => user === e.currentTarget.textContent)[0])
+                let user = getCurrentUser(specializations,courses, modules,app.users.filter(user => user === e.currentTarget.textContent)[0])
                 app.setCurrentUser(user)
               }
             }>{user}</button>
