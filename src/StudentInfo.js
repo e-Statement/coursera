@@ -1,27 +1,30 @@
-import Chart from "react-apexcharts";
-import {coursesGradesChartSettings, coursesGradesPolarChartSettings, coursesChartSettings} from './utils'
 import Collapse from "./Collapse";
+//eslint-disable-next-line
+import datejs from 'datejs'
 
 const Module = ({module}) => {
     const ModuleComponent = () => {
         let assignments = module.assignments
-        console.log(module)
         return (<div className="module">
             <table className="lessons">
-                <tr>
-                    <th>Название</th>
-                    <th>Оценка из 100</th>
-                    <th>Дата оценки</th>
-                    <th>Попытка пройдена</th>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Оценка из 100</th>
+                        <th>Дата оценки</th>
+                        <th>Попытка пройдена</th>
+                    </tr>
+                </thead>
+                <tbody>
                 {assignments.map(assignment => {
-                    return (<tr>
+                    return (<tr key={Math.random() * 1000}>
                         <td>{assignment.assignmentName}</td>
                         <td>{(assignment.attemptGrade * 100).toFixed(2)}</td>
                         <td>{ Date.parse(assignment.attemptTimestamp) != null && Date.parse(assignment.attemptTimestamp).toString("dd.MM.yyyy")}</td>
                         <td>{assignment.isAttemptPassed ? "Да" : "Нет"}</td>
                     </tr>)
                 })}
+                </tbody>
             </table>
         </div>)
     }
@@ -43,9 +46,8 @@ const Course = ({course}) => {
     const startTime = Date.parse(course.enrollmentTime)
     const endTime = Date.parse(course.completionTime)
     const total = Math.floor(( endTime - startTime ) / 86400000);
-
     const padezh = (num) => {
-        if (num === 12 || num == 11 || num == 13 || num == 14) 
+        if (num === 12 || num === 11 || num === 13 || num === 14) 
             return `${num} дней`
         switch (num.toString().slice(-1)){
             case '0':
@@ -74,7 +76,7 @@ const Course = ({course}) => {
             <h4>Приблизительное количество часов обучения: {course.learningHours}</h4>
             {endTime !== null && <h4><a href={course.sertificateUrl}>Cертификат</a></h4>}
             <h2>Модули</h2>
-            {course.modules.map(module => <Module module={module}/>)}
+            {course.modules.map(module => <Module module={module} key={Math.random() * 1000}/>)}
         </div>)
     }
 
@@ -107,10 +109,10 @@ const Course = ({course}) => {
 }
 
 const Specialization = ({specialization}) => {
-    const {specializationName,isCompleted,completedCoursesCount,courseCount,courses} = specialization;
-    let coursesChart = coursesChartSettings(courses)
-    let gradesChart = coursesGradesChartSettings(courses)
-    let gradesChartPolar = coursesGradesPolarChartSettings(courses)
+    const {specializationName,completedCoursesCount,courseCount,courses} = specialization;
+    //let coursesChart = coursesChartSettings(courses)
+    //let gradesChart = coursesGradesChartSettings(courses)
+    //let gradesChartPolar = coursesGradesPolarChartSettings(courses)
 
     const SpecializationComponent = () => {
         return (<div className="specialization">

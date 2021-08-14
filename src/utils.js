@@ -167,5 +167,17 @@ export const coursesGradesPolarChartSettings = (courses) => {
               }]
             },  
         }
-    }
+}
+
+export const postRequest = async (url,data) => {
+    const respData = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  }).then(response => response.json())
+
+  return respData;
+}
 
