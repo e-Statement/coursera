@@ -1,26 +1,11 @@
-import Papa from 'papaparse'
-
-export const fetchAndParseCsv = async (fileName) => {
-    return fetch(fileName)
-    .then(resp => resp.text())
-    .then(text => {
-      let result = Papa.parse(text).data
-      return result;
-    })
-}
-
 export const findUser = (userName , users) => {
     if (userName === "") return []
     let result = users.filter(x => {
         if (x === undefined) return false
-        return x.toLowerCase().includes(userName.toLowerCase())
+        return x.fullName.toLowerCase().includes(userName.toLowerCase())
     })
 
     return result;   
-}
-
-export const validateUserName = (name) => {
-    return name !== "ANONYMIZED_NAME" && name !== "" && name !== undefined && name !== null
 }
 
 export const coursesChartSettings = (courses) => {

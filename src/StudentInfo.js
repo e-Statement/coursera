@@ -1,13 +1,11 @@
-import { useState } from "react";
 import Chart from "react-apexcharts";
 import {coursesGradesChartSettings, coursesGradesPolarChartSettings, coursesChartSettings} from './utils'
 import Collapse from "./Collapse";
-import datejs from 'datejs'
 
 const Module = ({module}) => {
     const ModuleComponent = () => {
-        let items = module.lessons.map(lesson => lesson.items).flatMap(item => item)
-        console.log(items);
+        let assignments = module.assignments
+        console.log(module)
         return (<div className="module">
             <table className="lessons">
                 <tr>
@@ -16,12 +14,12 @@ const Module = ({module}) => {
                     <th>Дата оценки</th>
                     <th>Попытка пройдена</th>
                 </tr>
-                {items.map(item => {
+                {assignments.map(assignment => {
                     return (<tr>
-                        <td>{item.itemName}</td>
-                        <td>{(item.attemptGrade * 100).toFixed(2)}</td>
-                        <td>{ Date.parse(item.attemptTimestamp) != null && Date.parse(item.attemptTimestamp).toString("dd.MM.yyyy")}</td>
-                        <td>{item.isAttemptPassed === "Yes" ? "Да" : "Нет"}</td>
+                        <td>{assignment.assignmentName}</td>
+                        <td>{(assignment.attemptGrade * 100).toFixed(2)}</td>
+                        <td>{ Date.parse(assignment.attemptTimestamp) != null && Date.parse(assignment.attemptTimestamp).toString("dd.MM.yyyy")}</td>
+                        <td>{assignment.isAttemptPassed ? "Да" : "Нет"}</td>
                     </tr>)
                 })}
             </table>
@@ -82,7 +80,7 @@ const Course = ({course}) => {
 
     const Button = () => {
 
-        let color = course.completed === "Yes" ? "#5B8C5A" : "#720026" 
+        let color = course.isCompleted ? "#5B8C5A" : "#720026" 
 
         let styles = {
             width: course.progress + '%',
@@ -92,7 +90,7 @@ const Course = ({course}) => {
         return (
         <div>
             <div className="course-title">
-                <h4>{course.name}</h4>
+                <h4>{course.courseName}</h4>
                 <h4>Завершено на {course.progress + '%'}</h4>
             </div>
             <div className="course-progress-bar" style={styles}></div>
@@ -109,7 +107,7 @@ const Course = ({course}) => {
 }
 
 const Specialization = ({specialization}) => {
-    const {name,isCompleted,completedCourses,coursesCount,courses} = specialization;
+    const {specializationName,isCompleted,completedCoursesCount,courseCount,courses} = specialization;
     let coursesChart = coursesChartSettings(courses)
     let gradesChart = coursesGradesChartSettings(courses)
     let gradesChartPolar = coursesGradesPolarChartSettings(courses)
@@ -122,10 +120,10 @@ const Specialization = ({specialization}) => {
 
     const Button = () => {
         return (<div className="spec-title">
-            <h4>{name}</h4>
-            <h4>Завершено {completedCourses} из {coursesCount}</h4>
+            <h4>{specializationName}</h4>
+            <h4>Завершено {completedCoursesCount} из {courseCount}</h4>
         </div>)
-    }   
+    }    
 
     
 
@@ -133,12 +131,13 @@ const Specialization = ({specialization}) => {
 }
 
 const SpecializationsList = ({specializations}) => {
-    let withoutSpec = specializations.filter(spec => spec.name === "Курсы без специализации" && spec.courses.length !== 0);
+    let withoutSpec = specializations.filter(spec => spec.specializationName === "Курсы без специализации" && spec.courses.length !== 0);
+    let withSpec = specializations.filter(spec => spec.courses.length !== 0 && spec.specializationName !== "Курсы без специализации")
     return (
         <div className="specializations">
-            <h1 id="specs-title">{specializations.length !== 1 ? "Специализации" : "Специализация"}</h1>
+            {withSpec.length !== 0 &&  <h1 id="specs-title">{withSpec.length !== 1 ? "Специализации" : "Специализация"}</h1>}
             <div >
-                {specializations.filter(spec => spec.courses.length !== 0 && spec.name !== "Курсы без специализации").map(spec => {
+                {withSpec.map(spec => {
                     return <Specialization key={Math.random() * 1000} specialization={spec}/>
                 })}
             </div>
@@ -154,9 +153,10 @@ const SpecializationsList = ({specializations}) => {
 }
 
 const StudentInfo = ({student}) => {
+    console.log(student);
     return (
         <div className="stats">
-            <h1>Студент: {student.name} {student.group}</h1>
+            <h1>Студент: {student.fullName} {student.group}</h1>
             <br></br>
             <SpecializationsList specializations={student.specializations} />
         </div>
