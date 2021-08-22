@@ -5,7 +5,11 @@ const Collapse = ({component,buttonClassName, buttonComponent, headerButtonStyle
     return (
     <div className="collapse">
         <div className="collapse-header">
-            <div className={isOpen ? `${buttonClassName} ${buttonClassName}-lightened` : `${buttonClassName}`} onClick={() => setIsOpen(!isOpen)}>
+            <div style={headerButtonStyles} className={isOpen ? `${buttonClassName} ${buttonClassName}-lightened` : `${buttonClassName}`} 
+            onClick={() => {
+                if (!buttonClassName.includes("disabled"))
+                    setIsOpen(!isOpen)
+            }}>
                 {buttonComponent}
             </div>
         </div>

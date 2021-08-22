@@ -9,7 +9,7 @@ const Module = ({module}) => {
             <table className="lessons">
                 <thead>
                     <tr>
-                        <th>Название</th>
+                        <th>Задание</th>
                         <th>Оценка из 100</th>
                         <th>Дата оценки</th>
                         <th>Попытка пройдена</th>
@@ -30,15 +30,24 @@ const Module = ({module}) => {
     }
 
     const Button = () => {
+        
         return (<div className="module-title">
             <h4>{module.moduleName}</h4>
         </div>)
     } 
+    const styles = {};
+    let btnclass = "module-button";
+    if (module.moduleName.includes("не приступал"))
+    {
+        
+        btnclass += " disabled";
+    }
 
     return <Collapse 
         component={<ModuleComponent />} 
-        buttonClassName="module-button" 
+        buttonClassName={btnclass}
         buttonComponent={<Button />}
+        headerButtonStyles={styles}
         />
 }
 

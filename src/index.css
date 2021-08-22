@@ -198,7 +198,7 @@ body {
 }
 
 .module-button-lightened {
-  background-color:rgba(88, 88, 87, 0.404);
+  background-color:rgba(70, 79, 172, 0.404);
 }
 
 .module-title h4 {
@@ -277,6 +277,38 @@ body {
 }
 
 .course .collapse-body {
-  background-color: rgba(116, 108, 108, 0.404);
+  background-color: rgba(20, 48, 75, 0.11);
   border-bottom: 2px solid rgb(107, 100, 100);
 }
+
+.loading-icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: scale(0.1);
+  animation: rotation 2s infinite linear;
+  
+}
+
+@keyframes rotation {
+  from {
+      -webkit-transform: translate(-50%, -50%) scale(0.1) rotate(0deg);
+  }
+  to {
+      -webkit-transform: translate(-50%, -50%) scale(0.1) rotate(360deg);
+  }
+}
+
+.error-messsage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -400%);
+}
+
+.disabled {
+  cursor: default;
+  background-color: rgba(136, 10, 10, 0.5);
+}
+
+
