@@ -171,3 +171,14 @@ export const postRequest = async (url,data) => {
   return respData;
 }
 
+export const getRequest = async (url) => {
+  const respData = await fetch(url, {
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+}).then(response => response.json())
+
+return respData;
+}
+

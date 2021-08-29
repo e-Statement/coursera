@@ -1,7 +1,7 @@
 import './index.css';
 import { useState , useRef } from 'react';
 import StudentInfo from './StudentInfo';
-import Users from './Users'
+import Main from './Main'
 import React from 'react';
 
 export const AppContext = React.createContext(null)
@@ -12,6 +12,8 @@ function App() {
   const [currentUser,setCurrentUser] = useState()
   const icon = useRef(null)
   const errorMessage = useRef(null)
+  const [isMainPage, setIsMainPage] = useState(true)
+  const [scrollY, setScrollY] = useState(0)
 
   const contextObj = {
     users,
@@ -21,17 +23,18 @@ function App() {
     currentUser,
     setCurrentUser,
     icon,
-    errorMessage
+    errorMessage,
+    isMainPage,
+    setIsMainPage,
+    scrollY,
+    setScrollY
   }
 
   return (
     <AppContext.Provider value={contextObj}>
-      <div className="App">
-        <Users />
+        <Main />
+        <img ref={icon} src="refresh.png" className="loading-icon" hidden={true}/>
         {currentUser && <StudentInfo student={currentUser}/>}
-        <img ref={icon} src="refresh.png" alt="icon" className="loading-icon" hidden/>
-        <h3 ref={errorMessage} className="error-messsage" hidden>Не удалось получить информацию о студенте :(</h3>
-      </div>
     </AppContext.Provider>
   );
 }

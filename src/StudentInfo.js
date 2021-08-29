@@ -1,54 +1,43 @@
 import Collapse from "./Collapse";
 //eslint-disable-next-line
 import datejs from 'datejs'
+import { useContext} from 'react';
+import { AppContext } from './App'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-const Module = ({module}) => {
-    const ModuleComponent = () => {
-        let assignments = module.assignments
-        return (<div className="module">
-            <table className="lessons">
-                <thead>
-                    <tr>
-                        <th>Задание</th>
-                        <th>Оценка из 100</th>
-                        <th>Дата оценки</th>
-                        <th>Попытка пройдена</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {assignments.map(assignment => {
-                    return (<tr key={Math.random() * 1000}>
-                        <td>{assignment.assignmentName}</td>
-                        <td>{(assignment.attemptGrade * 100).toFixed(2)}</td>
-                        <td>{ Date.parse(assignment.attemptTimestamp) != null && Date.parse(assignment.attemptTimestamp).toString("dd.MM.yyyy")}</td>
-                        <td>{assignment.isAttemptPassed ? "Да" : "Нет"}</td>
-                    </tr>)
-                })}
-                </tbody>
-            </table>
-        </div>)
-    }
-
-    const Button = () => {
-        
-        return (<div className="module-title">
-            <h4>{module.moduleName}</h4>
-        </div>)
-    } 
-    const styles = {};
-    let btnclass = "module-button";
-    if (module.moduleName.includes("не приступал"))
-    {
-        
-        btnclass += " disabled";
-    }
-
-    return <Collapse 
-        component={<ModuleComponent />} 
-        buttonClassName={btnclass}
-        buttonComponent={<Button />}
-        headerButtonStyles={styles}
-        />
+const Assignments = ({assignments}) => {
+    let i = 0;
+    let x = []
+    return (<div className="module">
+        <table className="lessons">
+            <thead>
+                <tr>
+                    <th>Задание</th>
+                    <th>Оценка из 100</th>
+                    <th>Дата оценки</th>
+                    <th>Попытка пройдена</th>
+                </tr>
+            </thead>
+            <tbody>
+            {assignments.map((assignment, i) => {
+                const filt = assignments.filter(assign => assign.assignmentName === assignment.assignmentName)
+                i = filt.length
+                let cls = "notfinished";
+                if (filt.find(assi => assi.isAttemptPassed)) {
+                    cls = "finished"
+                }
+                const jsx = <tr key={Math.random() * 1000}>
+                {!x.includes(assignment.assignmentName) && <td rowSpan={i} className={cls}>{assignment.assignmentName}</td>}
+                <td>{(assignment.attemptGrade * 100).toFixed(2)}</td>   
+                <td>{ Date.parse(assignment.attemptTimestamp) != null && Date.parse(assignment.attemptTimestamp).toString("dd.MM.yyyy")}</td>
+                <td>{assignment.isAttemptPassed ? "Да" : "Нет"}</td>
+            </tr>;
+                x.push(assignment.assignmentName)
+                return jsx
+            })}
+            </tbody>
+        </table>
+    </div>)   
 }
 
 const Course = ({course}) => {
@@ -77,6 +66,10 @@ const Course = ({course}) => {
     }
 
     const CourseComponent = () => {
+        let assignments = []
+        for (let i = 0; i < course.modules.length;i++) {
+            assignments = assignments.concat(course.modules[i].assignments)
+        }
         return (<div className="course">
             <h4>Дата зачисления на курс: {startTime.toString("dd.MM.yyyy")}</h4>
             {endTime !== null && <h4>{`Студент закончил курс: ${endTime.toString("dd.MM.yyyy")}`}</h4>}
@@ -84,8 +77,8 @@ const Course = ({course}) => {
             <h4>Набрано {course.grade} из 100 баллов</h4>
             <h4>Приблизительное количество часов обучения: {course.learningHours}</h4>
             {endTime !== null && <h4><a href={course.sertificateUrl}>Cертификат</a></h4>}
-            <h2>Модули</h2>
-            {course.modules.map(module => <Module module={module} key={Math.random() * 1000}/>)}
+            <h2>Задания</h2>
+            {<Assignments assignments={assignments}/>}
         </div>)
     }
 
@@ -128,11 +121,14 @@ const Specialization = ({specialization}) => {
                 {courses.map(course =><Course key={Math.random() * 1000} course={course}/>)}
             </div>)
     }
-
+    console.log("adsasdasd", specialization)
     const Button = () => {
         return (<div className="spec-title">
             <h4>{specializationName}</h4>
-            <h4>Завершено {completedCoursesCount} из {courseCount}</h4>
+            <div className="spec-stats">
+                <h6>Завершено {completedCoursesCount} из {courseCount}</h6>
+                <h6>Средняя оценка: {specialization.courses.map(course => course.grade).reduce((a,b) => a +b , 0) / specialization.courses.length} из 100</h6>
+            </div>
         </div>)
     }    
 
@@ -165,8 +161,16 @@ const SpecializationsList = ({specializations}) => {
 
 const StudentInfo = ({student}) => {
     console.log(student);
+    const app = useContext(AppContext)
     return (
-        <div className="stats">
+        <div className={`stats ${!app.isMainPage ? "show" : "hide-student-info"}`}>
+            <ArrowBackIcon style={{ fontSize: 40, cursor:"pointer" }} className="back" onClick={() => {
+                app.setIsMainPage(true)
+                document.body.style.overflowY = 'unset';
+                setTimeout(() => {
+                    window.scrollTo(0,app.scrollY);
+                }, 500) 
+            }}/>
             <h1>Студент: {student.fullName} {student.group}</h1>
             <br></br>
             <SpecializationsList specializations={student.specializations} />
