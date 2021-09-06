@@ -69,29 +69,35 @@ const Filters = ({setFilters, filters}) => {
   ]
 
   return (<div className="filters" >
-  <Input setFilters={setFilters} filters={filters}/>
-  <Select className="specs select" options={specs.map(spec => {return {value: spec, label: spec}})} isMulti placeholder="Специализации" onChange={(e) => {
-    setFilters({...filters,specializations:e.map(spec => spec.value)})
-  }}/>
-  <Select className="courses select" options={courses.map(course => {return {value: course, label: course}})} isMulti placeholder="Курсы" onChange={(e) => {
-    setFilters({...filters,courses:e.map(course => course.value)})
-  }}/>
-  <Select value={orderBy[2]} className="courses select" options={orderBy} placeholder="Сортировка" onChange={(e) => {
-    setFilters({...filters,orderBy: e.value})
-  }}/>
-  <FormControlLabel style={{display: "block"}}
-        control={
-          <Checkbox
-            color="primary"
-            onChange={e => {
-              console.log(e.target.checked);
-              setFilters({...filters,isDescending:e.target.checked})
-            }}
-          />
-        }
-        label="По убыванию"
-      />
-  <Button variant="contained" color="primary" onClick={async () => await clickHandler()}>Найти</Button>
+  <div>
+    <Input setFilters={setFilters} filters={filters}/>
+    <Select className="specs select" options={specs.map(spec => {return {value: spec, label: spec}})} isMulti placeholder="Специализации" onChange={(e) => {
+      setFilters({...filters,specializations:e.map(spec => spec.value)})
+    }}/>
+    <Select className="courses select" options={courses.map(course => {return {value: course, label: course}})} isMulti placeholder="Курсы" onChange={(e) => {
+      setFilters({...filters,courses:e.map(course => course.value)})
+    }}/>
+    <Select value={orderBy[2]} className="courses select" options={orderBy} placeholder="Сортировка" onChange={(e) => {
+      setFilters({...filters,orderBy: e.value})
+    }}/>
+  </div>
+  <div className="filter-buttons">
+    <FormControlLabel style={{display: "block"}}
+          control={
+            <Checkbox
+              color="primary"
+              onChange={e => {
+                console.log(e.target.checked);
+                setFilters({...filters,isDescending:e.target.checked})
+              }}
+            />
+          }
+          label="По убыванию"
+        />
+    <Button variant="contained" color="primary" onClick={async () => await clickHandler()}>Найти</Button>
+    <Button variant="contained" color="primary" id="unload">Выгрузка</Button>
+  </div>
+  
 </div>)
 }
 

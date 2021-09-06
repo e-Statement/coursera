@@ -104,3 +104,17 @@
 .student td {
     text-align: center;
 }
+
+.filters {
+    display: flex;
+    width: 600px;
+}
+
+.filter-buttons {
+    margin-left: 30px
+}
+
+#unload {
+    margin-top: 10px;
+    display: block;
+}
