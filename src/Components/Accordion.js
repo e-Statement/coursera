@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const Collapse = ({component,buttonClassName, buttonComponent, headerButtonStyles}) => {
+const Accordion = ({component,buttonClassName, buttonComponent, headerButtonStyles}) => {
     const [isOpen,setIsOpen] = useState(false);
     return (
     <div className="collapse">
@@ -20,5 +20,4 @@ const Collapse = ({component,buttonClassName, buttonComponent, headerButtonStyle
     )
 }
 
-
-export default Collapse
+export default Accordion;

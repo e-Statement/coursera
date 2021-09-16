@@ -118,3 +118,19 @@
     margin-top: 10px;
     display: block;
 }
+
+.unload {
+   margin-right: 50px;
+   width: 500px; 
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.unload-buttons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}

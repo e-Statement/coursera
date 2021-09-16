@@ -1,8 +1,8 @@
-import './index.css';
-import { useState , useRef } from 'react';
-import StudentInfo from './StudentInfo';
-import Main from './Main'
+import { useState , useRef, useEffect } from 'react';
+import StudentCard from './Components/StudentCard';
+import Main from './Components/Main'
 import React from 'react';
+import {getSpecializations, getCourses} from './Requests'
 
 export const AppContext = React.createContext(null)
 
@@ -14,6 +14,18 @@ function App() {
   const errorMessage = useRef(null)
   const [isMainPage, setIsMainPage] = useState(true)
   const [scrollY, setScrollY] = useState(0)
+  const [courses, setCourses] = useState([])
+  const [specializations, setSpecializations] = useState([])
+
+  useEffect(() => {
+    const asyncFunc = async () => {
+      const data = await getSpecializations()
+      const courses = await getCourses()
+      setCourses(data || [])
+      setSpecializations(courses || [])
+    }
+    asyncFunc()
+  },[])
 
   const contextObj = {
     users,
@@ -27,14 +39,16 @@ function App() {
     isMainPage,
     setIsMainPage,
     scrollY,
-    setScrollY
+    setScrollY,
+    courses,
+    specializations
   }
 
   return (
     <AppContext.Provider value={contextObj}>
         <Main />
         <img ref={icon} src="refresh.png" className="loading-icon" hidden={true}/>
-        {currentUser && <StudentInfo student={currentUser}/>}
+        {currentUser && <StudentCard student={currentUser}/>}
     </AppContext.Provider>
   );
 }
