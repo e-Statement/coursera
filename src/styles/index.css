@@ -189,6 +189,7 @@ body {
   display: flex;
   justify-content: space-between;
   width: 98%;
+  margin-left: 10px;
 }
 
 .without-spec .collapse .collapse-header .course-button  {

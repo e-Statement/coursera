@@ -5,6 +5,7 @@ import { useContext} from 'react';
 import { AppContext } from '../App'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Specializations from './Specializations'
+import Course from './Course'
 
 
 const StudentCard = ({student}) => {
@@ -21,7 +22,14 @@ const StudentCard = ({student}) => {
             }}/>
             <h1>Студент: {student.fullName} {student.group}</h1>
             <br></br>
-            <Specializations specializations={student.specializations} />
+            {student.specializations.length != 0 
+            && <Specializations specializations={student.specializations} />
+            || <h2>У данного ученика нет специализаций</h2>}
+            <br />
+            <div className="courses-wthout-spec">
+                {student.coursesWithoutSpecialization.length != 0 && <h2>Курсы без специализации</h2>}
+                {student.coursesWithoutSpecialization.map(course => <Course key={Math.random() * 1000} course={course}/>)}
+            </div>
         </div>
     )
 }

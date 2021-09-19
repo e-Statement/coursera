@@ -1,34 +1,45 @@
 import { postRequest, getRequest } from './utils';
+import settings from './settings.json'
 
-export const getUser = async (fullName) => {
-    return postRequest("http://localhost:4200/student", {name: fullName})
+export const getUser = async (id) => {
+    return getRequest(`${settings.serverEndpoint}/students/${id}`)
   }
   
   export  const getUsers = async ({name, specializations, courses, orderBy, isDescending}) => {
     console.log("getting users..");
-    return postRequest("http://localhost:4200/students", {name, specializations, courses, orderBy, isDescending})
+    var filters = {fullName: name, specializations, courses, orderBy, isDescending}
+    return postRequest(`${settings.serverEndpoint}/students`, filters)
     .catch(err => console.log("cant get users from /students " + err))         
   }
   
   export const getSpecializations = async () => {
-    return getRequest("http://localhost:4200/specializations")
+    return getRequest(`${settings.serverEndpoint}/specializations`)
     .catch(err => console.log("cant get users from /specializaitons " + err))   
   }
   
   export const getCourses = async () => {
-    return getRequest("http://localhost:4200/courses")
+    return getRequest(`${settings.serverEndpoint}/courses`)
     .catch(err => console.log("cant get users from /courses " + err))   
   }
 
   export const unloadBySpecializationAsync = async (specializationName) => {
       console.log(JSON.stringify(specializationName));
-    const respData = await fetch("http://localhost:4200/unloadBySpecialization", {
+    const respData = await fetch(`${settings.serverEndpoint}/unload/specialization`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(specializationName)
-      }).then(response => response.blob())
+      }).then((response) => response.blob())
+      .then((blob) => URL.createObjectURL(blob))
+      .then((href) => {
+        const a = document.createElement("a")
+        document.body.appendChild(a)
+        a.style = "display: none"
+        a.href = href
+        a.download = `${specializationName}.xlsx`
+        a.click()
+      })
     
       return respData;
   }

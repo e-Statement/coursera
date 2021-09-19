@@ -11,8 +11,12 @@ const Filters = ({setFilters, filters}) => {
     const clickHandler = async () => {
       icon.current.hidden = false;
       app.setFoundUsers([])
-        const data = await getUsers(filters)
-        app.setFoundUsers(data || [])
+        const getUsersResult = await getUsers(filters)
+        if (getUsersResult) {
+          app.setFoundUsers(getUsersResult.students || [])
+          console.log(getUsersResult.students);
+        }
+          
         icon.current.hidden = true;
     }
     

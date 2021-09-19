@@ -1,4 +1,5 @@
 const Assignments = ({assignments}) => {
+    console.log(assignments);
     let i = 0;
     let x = []
     return (<div className="module">
@@ -13,19 +14,19 @@ const Assignments = ({assignments}) => {
             </thead>
             <tbody>
             {assignments.map((assignment, i) => {
-                const filt = assignments.filter(assign => assign.assignmentName === assignment.assignmentName)
+                const filt = assignments.filter(assign => assign.title === assignment.title)
                 i = filt.length
                 let cls = "notfinished";
                 if (filt.find(assi => assi.isAttemptPassed)) {
                     cls = "finished"
                 }
                 const jsx = <tr key={Math.random() * 1000}>
-                {!x.includes(assignment.assignmentName) && <td rowSpan={i} className={cls}>{assignment.assignmentName}</td>}
+                {!x.includes(assignment.title) && <td rowSpan={i} className={cls}>{assignment.title}</td>}
                 <td>{(assignment.attemptGrade * 100).toFixed(2)}</td>   
                 <td>{ Date.parse(assignment.attemptTimestamp) != null && Date.parse(assignment.attemptTimestamp).toString("dd.MM.yyyy")}</td>
                 <td>{assignment.isAttemptPassed ? "Да" : "Нет"}</td>
             </tr>;
-                x.push(assignment.assignmentName)
+                x.push(assignment.title)
                 return jsx
             })}
             </tbody>

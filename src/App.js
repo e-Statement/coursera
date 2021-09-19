@@ -19,10 +19,18 @@ function App() {
 
   useEffect(() => {
     const asyncFunc = async () => {
-      const data = await getSpecializations()
-      const courses = await getCourses()
-      setCourses(data || [])
-      setSpecializations(courses || [])
+      const getSpecializationsResult = await getSpecializations()
+      const getCoursesResult = await getCourses()
+
+      console.log(getCoursesResult);
+      console.log(getSpecializationsResult);
+
+    
+      if (getCoursesResult)
+        setCourses(getCoursesResult.courses || [])
+
+      if (getSpecializationsResult)
+         setSpecializations(getSpecializationsResult.specializations || [])
     }
     asyncFunc()
   },[])

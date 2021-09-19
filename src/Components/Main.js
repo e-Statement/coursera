@@ -8,7 +8,7 @@ import Unload from "./Unload"
 const Student = ({student}) => {
   const app = useContext(AppContext)
   return <tr className="student" onClick={async () => {
-    const response = await getUser(student.fullName)
+    const response = await getUser(student.id)
     app.setCurrentUser(response)
     app.setIsMainPage(false)
     app.setScrollY(window.scrollY)
