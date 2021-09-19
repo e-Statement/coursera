@@ -43,3 +43,25 @@ export const getUser = async (id) => {
     
       return respData;
   }
+
+export const unloadByCoursesAsync = async (courses) => {
+  console.log(JSON.stringify(courses));
+  const respData = await fetch(`${settings.serverEndpoint}/unload/courses`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(courses)
+    }).then((response) => response.blob())
+    .then((blob) => URL.createObjectURL(blob))
+    .then((href) => {
+      const a = document.createElement("a")
+      document.body.appendChild(a)
+      a.style = "display: none"
+      a.href = href
+      a.download = "Courses.xlsx"
+      a.click()
+    })
+  
+    return respData;
+}

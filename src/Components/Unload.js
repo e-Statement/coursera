@@ -2,7 +2,7 @@ import { Button } from '@material-ui/core';
 import Select from 'react-select'
 import { AppContext } from '../App'
 import {useState, useContext} from 'react'
-import {unloadBySpecializationAsync}  from '../Requests'
+import {unloadBySpecializationAsync, unloadByCoursesAsync}  from '../Requests'
 
 const unloadBySpecialization = async (specialization) => {
     await unloadBySpecializationAsync(specialization)
@@ -24,7 +24,7 @@ const Unload = () => {
           }/>
         <div className="unload-buttons">
             <Button variant="contained" color="primary" onClick={() => unloadBySpecialization(specialization)}>Выгрузить по специализации</Button>
-            <Button variant="contained" color="primary">Выгрузить по курсам</Button>
+            <Button variant="contained" color="primary" onClick={() => unloadByCoursesAsync(courses)}>Выгрузить по курсам</Button>
         </div>
     </div>
     )
