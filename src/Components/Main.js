@@ -1,31 +1,27 @@
-import { useContext, useState } from 'react';
-import { AppContext } from '../App'
+import { useState, useRef } from 'react';
 import '../styles/mainpage.css';
 import Filters from "./Filters"
-import {getUser} from '../Requests'
 import Unload from "./Unload"
+import { useHistory } from 'react-router-dom'
 
 const Student = ({student}) => {
-  const app = useContext(AppContext)
-  return <tr className="student" onClick={async () => {
-    const response = await getUser(student.id)
-    app.setCurrentUser(response)
-    app.setIsMainPage(false)
-    app.setScrollY(window.scrollY)
-    setTimeout(() => {
-      window.scrollTo(0,0);
-      document.body.style.overflowY = 'unset';
-    },50)
-  }}>
-    <td>{student.fullName}</td>
-    <td>{student.averageHours ? student.averageHours.toFixed(2) : 0}</td>
-    <td>{student.averageGrade ? student.averageGrade.toFixed(2) : 0}</td>
-  </tr>
+
+  const history = useHistory();
+  const handleRowClick = (id) => {
+    history.push(`/students/${id}`);
+  }  
+
+  return (
+    <tr className="student" onClick={()=> handleRowClick(student.id)}>
+      <td>{student.fullName}</td>
+      <td>{student.averageHours ? student.averageHours.toFixed(2) : 0}</td>
+      <td>{student.averageGrade ? student.averageGrade.toFixed(2) : 0}</td>
+    </tr>)
 }
 
 const StudentsTable = ({students}) => {
   return (
-    <table className="students">
+    <table className="students-table">
       <thead>
         <tr>
           <th>Имя студента</th>
@@ -42,20 +38,20 @@ const StudentsTable = ({students}) => {
 
 
 const Main = () => {
-  const app = useContext(AppContext)
-  const [filters,setFilters] = useState({name: "", specializations:[], courses: [], orderBy:"name", isDescending: false})
-  return (
-    <div className={`main ${!app.isMainPage ? "hide-main-page" : null}`}>
+  const [students, setStudents] = useState([])
+  const icon = useRef(null)
 
+  return (
+    <div className="main-page">
     <header className="header">
-      <Filters setFilters={setFilters} filters={filters}/>
+      <Filters setStudents={setStudents} icon={icon}/>
       <Unload />
     </header>
-
-    <main>
-      {app.foundUsers.length !== 0 && <StudentsTable students={app.foundUsers}/>}
+    
+    <main className="students">
+      {students.length !== 0 && <StudentsTable students={students}/>}
+      <img ref={icon} src="refresh.png" className="loading-icon" hidden={true} alt="Loading..." />
     </main>
-
   </div>
   )
 }

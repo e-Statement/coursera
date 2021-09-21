@@ -1,9 +1,6 @@
 const Assignments = ({assignments}) => {
-    console.log(assignments);
-    let i = 0;
     let x = []
-    return (<div className="module">
-        <table className="lessons">
+    return (<table className="assignments">
             <thead>
                 <tr>
                     <th>Задание</th>
@@ -30,8 +27,7 @@ const Assignments = ({assignments}) => {
                 return jsx
             })}
             </tbody>
-        </table>
-    </div>)   
+        </table>)   
 }
 
 export default Assignments;

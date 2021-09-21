@@ -1,0 +1,136 @@
+
+
+.student-card {
+    margin-left: 100px;
+}
+
+.student-card * {
+    margin: 0;
+    padding: 0;
+}
+  
+.collapse-body {
+    overflow: hidden;
+    max-height: 4000px;
+    transition: max-height 0.5s ease-in-out;
+  }
+  
+.close {
+    max-height: 0;
+}
+  
+  .specializations {
+    width: 80%;
+  }
+  
+  .spec-button {
+    background: rgb(141, 164, 240);
+    cursor: pointer;
+    font-size: 30px;
+    border: none;
+    border-radius: 7.5px;
+    padding: 15px 5px;
+    display: block;
+    width:100%;
+    text-align: left;
+    transition: 0.25s all;
+    box-sizing: border-box;
+    
+  }
+  
+  .spec-button:hover {
+    background: rgb(74, 123, 187);
+  }
+  
+  .course-button {
+    width: 100%;
+    text-align: left;
+    border: none;
+    
+    cursor: pointer;
+    font-size: 17.5px;
+    border-top: 1px solid rgb(82, 81, 81);
+    padding: 20px 5px;
+    transition: 0.25s all;
+    position: relative;
+    box-sizing: border-box;
+    
+  }
+  
+  .spec-button-lightened {
+    background-color: rgb(74, 123, 187);
+    border-radius: 0;
+    border-top-left-radius: 7.5px;
+    border-top-right-radius: 7.5px;
+  }
+  
+  .collapse {
+    margin: 5px 0;
+    padding: 0px;
+    border: 1px solid rgba(43, 42, 42, 0.247);
+    border-radius: 10px;
+  }
+  
+  .specialization .collapse {
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+  
+  .spec-title {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+  }
+  
+  .collapse .collapse-body {
+    background-color: rgba(78, 81, 99, 0.103);
+  }
+  
+  .course-progress-bar {
+    position: absolute;
+    background-color: #5B8C5A;
+    height: 100%;
+    width: 100%;
+    top:0;
+    left: 0;
+    z-index: -1;
+    
+  }
+  
+  .course-title {
+    display: flex;
+    justify-content: space-between;
+    width: 98%;
+    margin-left: 10px;
+  }
+  
+  .assignments {
+    width: 100%;
+    padding: 5px;
+    border-collapse: collapse;
+    margin: 10px 0;
+  }
+  
+  .assignments tr th {
+    font-size: 17px;
+    border: 1px solid black;
+  }
+  
+  .assignments tr td {
+    text-align: center;
+    border: 1px solid black;
+  }
+  
+  .spec-title {
+    align-items: center;
+  }
+
+.courses-wthout-specialization {
+    width: 80%;
+}
+
+.collapse-body .course > h4 {
+    margin: 15px 10px;
+}
+

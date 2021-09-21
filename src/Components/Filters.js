@@ -1,20 +1,35 @@
-import { AppContext } from '../App'
-import { Button, Checkbox, FormControlLabel } from '@material-ui/core';
-import { useContext } from 'react';
+import { Button, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
+import { useState, useEffect } from 'react';
 import Select from 'react-select'
-import { getUsers } from '../Requests'
+import { getUsers, getSpecializations, getCourses} from '../Requests'
+import "../styles/filters.css"
 
 
-const Filters = ({setFilters, filters}) => {
-    const app = useContext(AppContext)
-    const icon = app.icon
+const Filters = ({setStudents, icon}) => {
+  const [filters,setFilters] = useState({name: "", specializations:[], courses: [], orderBy:"name", isDescending: false})
+  const [courses, setCourses] = useState([])
+  const [specializations, setSpecializations] = useState([])
+
+  useEffect(() => {
+    const asyncFunc = async () => {
+      const getSpecializationsResult = await getSpecializations()
+      const getCoursesResult = await getCourses()
+    
+      if (getCoursesResult)
+        setCourses(getCoursesResult.courses || [])
+
+      if (getSpecializationsResult)
+         setSpecializations(getSpecializationsResult.specializations || [])
+    }
+    asyncFunc()
+  },[])
+
     const clickHandler = async () => {
       icon.current.hidden = false;
-      app.setFoundUsers([])
+      setStudents([])
         const getUsersResult = await getUsers(filters)
         if (getUsersResult) {
-          app.setFoundUsers(getUsersResult.students || [])
-          console.log(getUsersResult.students);
+          setStudents(getUsersResult.students || [])
         }
           
         icon.current.hidden = true;
@@ -26,10 +41,10 @@ const Filters = ({setFilters, filters}) => {
       {value: "name", label: "Имя"}
     ]
 
-    const specializationsOptions = app.specializations.map(spec => {return {value: spec, label: spec}})
-    const coursesOptions = app.courses.map(course => {return {value: course, label: course}})
+    const specializationsOptions = specializations.map(spec => {return {value: spec, label: spec}})
+    const coursesOptions = courses.map(course => {return {value: course, label: course}})
   
-    return (<div className="filters" >
+    return (<div className="filters">
     <div>
       <Input setFilters={setFilters} filters={filters}/>
       <Select className="specs select" options={specializationsOptions} isMulti placeholder="Специализации" onChange={(e) => {
@@ -61,16 +76,13 @@ const Filters = ({setFilters, filters}) => {
   }
 
   const Input = ({filters,setFilters}) => {
-    return (<div className="find-student">
-      <input 
-          id="find" 
-          type="text" 
-          placeholder="Имя студента" 
-          onChange={async (e) => {
+    return <TextField 
+    className="input"
+     label="Имя студента" 
+      variant="outlined"
+      onChange={async (e) => {
             setFilters({...filters,name: e.target.value})
-          }}
-          />
-    </div>)
+          }} />
   }
 
   export default Filters;

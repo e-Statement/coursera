@@ -1,35 +1,50 @@
-import Collapse from "./Accordion";
 //eslint-disable-next-line
 import datejs from 'datejs'
-import { useContext} from 'react';
-import { AppContext } from '../App'
+import { useState, useEffect } from 'react';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Specializations from './Specializations'
 import Course from './Course'
+import { useParams  } from "react-router-dom";
+import { getUser } from '../Requests'
+import { Link } from 'react-router-dom'
+import "../styles/studentcard.css"
 
 
-const StudentCard = ({student}) => {
+
+const StudentCard = () => {
+    let { id } = useParams();
+    console.log(id);
+    const [student, setStudent] = useState(null)
+
+    useEffect(() => {
+        const getAsync = async () => {
+            const getStudentResult = await getUser(id);
+            setStudent(getStudentResult)
+        }
+        getAsync()
+    },[id])
     console.log(student);
-    const app = useContext(AppContext)
     return (
-        <div className={`stats ${!app.isMainPage ? "show" : "hide-student-info"}`}>
-            <ArrowBackIcon style={{ fontSize: 40, cursor:"pointer" }} className="back" onClick={() => {
-                app.setIsMainPage(true)
-                document.body.style.overflowY = 'unset';
-                setTimeout(() => {
-                    window.scrollTo(0,app.scrollY);
-                }, 500) 
-            }}/>
+        <div className="student-card">
+        {student != null 
+        ? 
+        <>
+        <Link to="/">
+            <ArrowBackIcon style={{ fontSize: 40, cursor:"pointer" }} className="back" onClick={() => {}}/>
+        </Link>
             <h1>Студент: {student.fullName} {student.group}</h1>
             <br></br>
-            {student.specializations.length != 0 
-            && <Specializations specializations={student.specializations} />
-            || <h2>У данного ученика нет специализаций</h2>}
+            {(student.specializations.length !== 0
+            ? <Specializations specializations={student.specializations} />
+            : <h2>У данного ученика нет специализаций</h2>)}
             <br />
-            <div className="courses-wthout-spec">
-                {student.coursesWithoutSpecialization.length != 0 && <h2>Курсы без специализации</h2>}
+            <div className="courses-wthout-specialization">
+                {student.coursesWithoutSpecialization.length !== 0 && <h2>Курсы без специализации</h2>}
                 {student.coursesWithoutSpecialization.map(course => <Course key={Math.random() * 1000} course={course}/>)}
             </div>
+        </>
+        : <h1>Not Found</h1>
+        }
         </div>
     )
 }
