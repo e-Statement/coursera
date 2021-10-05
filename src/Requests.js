@@ -13,14 +13,41 @@ export const getUser = async (id) => {
   }
   
   export const getSpecializations = async () => {
-    return getRequest(`${settings.serverEndpoint}/specializations`)
-    .catch(err => console.log("cant get users from /specializaitons " + err))   
+    return fetch(`${settings.serverEndpoint}/specializations`,{
+        method: 'GET',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/json'
+        }})
+    .catch(err => console.log("cant get users from /specializaitons " + err))
   }
-  
+
   export const getCourses = async () => {
-    return getRequest(`${settings.serverEndpoint}/courses`)
+    return fetch(`${settings.serverEndpoint}/courses`, {
+          method: 'GET',
+            mode: 'no-cors',
+              headers: {
+              'Content-Type': 'application/json'
+          }})
     .catch(err => console.log("cant get users from /courses " + err))   
   }
+
+export const IsAuthorize = async () => {
+    return getRequest(`${settings.serverEndpoint}/Auth/IsAuthorized`)
+        .catch(err => console.log("Auth failed " + err))
+}
+
+export const Authorize = async (email: string, password: string) => {
+    return  fetch(`${settings.serverEndpoint}/Auth/LoginInner`, {
+        method: 'POST',
+        redirect: "follow",
+        headers: {
+            'Email': email,
+            'Password': password,
+            'Content-Type': 'application/json'
+        }})
+        .catch(err => console.log("Auth failed " + err))
+}
 
   export const unloadBySpecializationAsync = async (specializationName) => {
       console.log(JSON.stringify(specializationName));
