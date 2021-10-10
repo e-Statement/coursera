@@ -8,7 +8,7 @@ import {
 } from "react-transition-group";
 
 import "./styles/fade.css";
-import {AuthorizationForm, authorizationForm} from "./Components/Authorize";
+import {AuthorizationForm} from "./Components/Authorization";
 
 const AnimatedSwitch = withRouter(({ location }) => (
     <TransitionGroup>
@@ -17,9 +17,8 @@ const AnimatedSwitch = withRouter(({ location }) => (
           timeout={10} 
           key={location.key}>
       <Switch location={location}>
-        <Route exact path="/" component={Main} />
+        < Route exact path="/index.html" component={Main} />
         <Route path="/students/:id" component={StudentCard} />
-        <Route path="/Auth" component={AuthorizationForm} />
       </Switch>
       </CSSTransition>
     </TransitionGroup>  

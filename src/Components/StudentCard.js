@@ -29,7 +29,7 @@ const StudentCard = () => {
         {student != null 
         ? 
         <>
-        <Link to="/">
+        <Link to="/index.html">
             <ArrowBackIcon style={{ fontSize: 40, cursor:"pointer" }} className="back" onClick={() => {}}/>
         </Link>
             <h1>Студент: {student.fullName} {student.group}</h1>

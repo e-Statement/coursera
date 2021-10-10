@@ -3,7 +3,6 @@ import '../styles/mainpage.css';
 import Filters from "./Filters"
 import Unload from "./Unload"
 import { useHistory } from 'react-router-dom'
-import {AuthorizationManager} from "./Authorize";
 
 const Student = ({student}) => {
 
@@ -48,7 +47,6 @@ const Main = () => {
       <Filters setStudents={setStudents} icon={icon}/>
       <Unload />
     </header>
-    <AuthorizationManager />
     <main className="students">
       {students.length !== 0 && <StudentsTable students={students}/>}
       <img ref={icon} src="refresh.png" className="loading-icon" hidden={true} alt="Loading..." />
