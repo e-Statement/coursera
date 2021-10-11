@@ -8,7 +8,6 @@ import {
 } from "react-transition-group";
 
 import "./styles/fade.css";
-import {AuthorizationForm} from "./Components/Authorization";
 
 const AnimatedSwitch = withRouter(({ location }) => (
     <TransitionGroup>

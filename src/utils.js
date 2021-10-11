@@ -19,11 +19,11 @@ export const getRequest = async (url) => {
         headers: {
             'Content-Type': 'application/json'
         },
-    }).then(r=>
+    }).then(response=>
     {
-    if (r.redirected)
-        window.location = r.url
-    return r;
+    if (response.redirected)
+        window.location = response.url
+    return response;
     }).then(response =>response.json())
     .catch(err => console.log("an error occured whilte getting from " + url + ": " + err))
 
