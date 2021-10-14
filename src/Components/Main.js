@@ -47,7 +47,6 @@ const Main = () => {
       <Filters setStudents={setStudents} icon={icon}/>
       <Unload />
     </header>
-    
     <main className="students">
       {students.length !== 0 && <StudentsTable students={students}/>}
       <img ref={icon} src="refresh.png" className="loading-icon" hidden={true} alt="Loading..." />
