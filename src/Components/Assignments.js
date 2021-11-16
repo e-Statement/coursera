@@ -17,10 +17,22 @@ const Assignments = ({assignments}) => {
                 if (filt.find(assi => assi.isAttemptPassed)) {
                     cls = "finished"
                 }
+
+                let grade = 0
+                if (assignment.attemptGrade != null)
+                    grade = assignment.attemptGrade * 100
+                if (assignment.gradeAfterOverride != null)
+                    grade = assignment.gradeAfterOverride * 100
+
+                let timestamp = ""
+                if (assignment.attemptTimestamp != null
+                    && !isNaN(Date.parse(assignment.attemptTimestamp)))
+                    timestamp = Date.parse(assignment.attemptTimestamp).toString("dd.MM.yyyy")
+
                 const jsx = <tr key={Math.random() * 1000}>
                 {!x.includes(assignment.title) && <td rowSpan={i} className={cls}>{assignment.title}</td>}
-                <td>{(assignment.attemptGrade * 100).toFixed(2)}</td>   
-                <td>{ Date.parse(assignment.attemptTimestamp) != null && Date.parse(assignment.attemptTimestamp).toString("dd.MM.yyyy")}</td>
+                <td>{ grade.toFixed(2) }</td>
+                <td>{ timestamp }</td>
                 <td>{assignment.isAttemptPassed ? "Да" : "Нет"}</td>
             </tr>;
                 x.push(assignment.title)
