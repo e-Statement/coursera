@@ -15,7 +15,7 @@ const Course = ({course}) => {
             <h4>{endTime !== null ? `Курс пройден за ${padezh(total)}` : "Студент не прошёл курс"}</h4>
             <h4>Набрано {course.grade.toFixed(2)} из 100 баллов</h4>
             <h4>Приблизительное количество часов обучения: {course.learningHours.toFixed(2)}</h4>
-            {endTime !== null && <h4><a href={course.certificateUrl}>Cертификат</a></h4>}
+            {endTime !== null && course.certificateUrl && <h4><a href={course.certificateUrl}>Cертификат</a></h4>}
             <h2>Задания</h2>
             {<Assignments assignments={course.assignments}/>}
         </div>)
