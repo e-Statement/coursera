@@ -32,18 +32,18 @@ const StudentCard = () => {
         <Link to="/index.html">
             <ArrowBackIcon style={{ fontSize: 40, cursor:"pointer" }} className="back" onClick={() => {}}/>
         </Link>
-            <h1>Студент: {student.fullName} {student.group}</h1>
-            <br></br>
+            <h2>Студент: {student.fullName} {student.group}</h2>
+            <br/>
             {(student.specializations.length !== 0
             ? <Specializations specializations={student.specializations} />
-            : <h2>У данного ученика нет специализаций</h2>)}
+            : <h3>У данного ученика нет специализаций</h3>)}
             <br />
             <div className="courses-wthout-specialization">
-                {student.coursesWithoutSpecialization.length !== 0 && <h2>Курсы без специализации</h2>}
+                {student.coursesWithoutSpecialization.length !== 0 && <h3>Курсы без специализации</h3>}
                 {student.coursesWithoutSpecialization.map(course => <Course key={Math.random() * 1000} course={course}/>)}
             </div>
         </>
-        : <h1>Not Found</h1>
+        : <h2>Not Found</h2>
         }
         </div>
     )
