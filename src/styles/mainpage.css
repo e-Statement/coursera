@@ -30,10 +30,10 @@
   }
 
 .students-table {
-    padding-top: 50px;
-    width: 80vw;
+    margin-left: auto;
+    margin-right: 2%;
+    width: 60%;
     border-collapse: separate;
-    margin: 0 auto;
   }
 
 .students-table thead tr th:first-child {
@@ -46,7 +46,7 @@
 }
 
 .students-table tbody tr td {
-    padding: 15px;
+    padding: 12px;
     border: 1px solid rgb(88, 85, 85);
     border-spacing: 10px;
 }

@@ -1,7 +1,9 @@
 
 
 .student-card {
-    margin-left: 100px;
+    margin-left: auto;
+    margin-right: 2%;
+    width: 60%;
 }
 
 .student-card * {
@@ -20,7 +22,6 @@
 }
   
   .specializations {
-    width: 80%;
   }
   
   .spec-button {
@@ -48,8 +49,7 @@
     border: none;
     
     cursor: pointer;
-    font-size: 17.5px;
-    border-top: 1px solid rgb(82, 81, 81);
+    font-size: 17px;
     padding: 20px 5px;
     transition: 0.25s all;
     position: relative;
@@ -66,7 +66,7 @@
   
   .collapse {
     margin: 5px 0;
-    padding: 0px;
+    padding: 0;
     border: 1px solid rgba(43, 42, 42, 0.247);
     border-radius: 10px;
   }
@@ -106,10 +106,10 @@
   }
   
   .assignments {
-    width: 100%;
+    width: 98%;
     padding: 5px;
     border-collapse: collapse;
-    margin: 10px 0;
+    margin: 10px auto;
   }
   
   .assignments tr th {
@@ -127,7 +127,6 @@
   }
 
 .courses-wthout-specialization {
-    width: 80%;
 }
 
 .collapse-body .course > h4 {
