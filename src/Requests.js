@@ -5,7 +5,7 @@ export const getUser = async (id) => {
     return getRequest(`${settings.serverEndpoint}/students/${id}`)
 }
 
-export  const getUsers = async ({name, specializations, courses, orderBy, isDescending}) => {
+export const getUsers = async ({name, specializations, courses, orderBy, isDescending}) => {
     console.log("getting users..");
     var filters = {fullName: name, specializations, courses, orderBy, isDescending}
     return postRequest(`${settings.serverEndpoint}/students`, filters)
