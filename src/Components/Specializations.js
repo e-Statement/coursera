@@ -17,7 +17,7 @@ const Specializations = ({specializations}) => {
 const Specialization = ({specialization}) => {
 
     const {title,completedCourseCount,courseCount,courses} = specialization;
-    const averageGrade = specialization.courses.map(course => course.grade).reduce((a,b) => a +b , 0) / specialization.courses.length;
+    const averageGrade = specialization.courses.map(course => course.grade).reduce((a,b) => a +b , 0) / courseCount;
     const Body = () => {
         return (<div className="specialization">
                 {courses.map(course =><Course key={Math.random() * 1000} course={course}/>)}
