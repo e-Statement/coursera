@@ -3,6 +3,18 @@ import { useState, useEffect } from 'react';
 import Select from 'react-select'
 import { getUsers, getSpecializations, getCourses} from '../Requests'
 import "../styles/filters.css"
+import {useHistory} from "react-router-dom";
+
+const Upload = () => {
+  const history = useHistory();
+  const toUpload = () => {
+    history.push('/uploadnew');
+  }
+
+  return(
+      <Button variant="contained" color="primary" onClick={() => toUpload()}>Загрузить новые файлы</Button>
+  )
+}
 
 
 const Filters = ({setStudents, icon}) => {
@@ -50,6 +62,7 @@ const Filters = ({setStudents, icon}) => {
     </div>
     <div className="filter-buttons">
       <Button variant="contained" color="primary" onClick={async () => await clickHandler()}>Найти</Button>
+      <Upload/>
     </div>
     
   </div>)

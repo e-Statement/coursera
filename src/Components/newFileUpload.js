@@ -1,5 +1,7 @@
 import React from 'react'
 import {UploadNewFile} from "../Requests";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import {Link} from "react-router-dom";
 const NewFileUpload = () =>
 {
     const buttonHandler = () =>
@@ -22,6 +24,9 @@ const NewFileUpload = () =>
     }
        return(
            <div>
+               <Link to="/index.html">
+                   <ArrowBackIcon style={{ fontSize: 40, cursor:"pointer" }} className="back" onClick={() => {}}/>
+               </Link>
                <form id="uploadForm" encType="multipart/form-data" >
                    <p>Загрузите файлы</p>
                    <label>студенты</label>
@@ -30,7 +35,7 @@ const NewFileUpload = () =>
                    <p><input  type='file' name="specializations" multiple accept="text/csv"/></p>
                    <label>курсы</label>
                    <p><input  type='file' name="courses" multiple accept="text/csv"/></p>
-                   <label>assignments</label>
+                   <label>задания</label>
                    <p><input  type='file' name="assignments" multiple accept="text/csv"/></p>
                </form>
                <div><button onClick={buttonHandler}>Send</button></div>
