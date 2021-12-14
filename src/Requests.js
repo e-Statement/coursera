@@ -1,5 +1,6 @@
 import { postRequest, getRequest } from './utils';
 import settings from './settings.json'
+import * as url from "url";
 
 export const getUser = async (id) => {
     return getRequest(`${settings.serverEndpoint}/students/${id}`)
@@ -55,6 +56,14 @@ export const unloadBySpecializationAsync = async (specializationName) => {
         })
 
     return respData;
+}
+
+export const UploadNewFile = async (form) =>
+{
+    return  fetch(`${settings.serverEndpoint}/files/uploadNew`, {
+        method: 'POST',
+        body: form
+    })
 }
 
 export const unloadByCoursesAsync = async (courses) => {
