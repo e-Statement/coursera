@@ -15,8 +15,9 @@ const NewFileUpload = () =>
         {
             let resultText = "успешно: "+resp['isSuccess'];
             if (resp.isSuccess !== true)
-                resultText+="сообщение: "+resp['errorText']+"\n\rstatusCode"+resp['statusCode'];
-            informLabel.textContent = resultText;
+                resultText+="\n\rсообщение: "+resp['errorText']+"\n\rstatusCode"+resp['statusCode'];
+            informLabel.innerText = resultText;
+
         });
     }
        return(
@@ -32,8 +33,8 @@ const NewFileUpload = () =>
                    <label>assignments</label>
                    <p><input  type='file' name="assignments" multiple accept="text/csv"/></p>
                </form>
-               <button onClick={buttonHandler}>Send</button>
-               <label id="informLabel"></label>
+               <div><button onClick={buttonHandler}>Send</button></div>
+               <div><label id="informLabel"></label></div>
         </div>)
 
 }
