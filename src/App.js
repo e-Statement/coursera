@@ -1,5 +1,6 @@
 import StudentCard from './Components/StudentCard';
 import Main from './Components/Main'
+import NewFileUpload from "./Components/newFileUpload";
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, withRouter } from "react-router-dom";
 import {
@@ -16,8 +17,9 @@ const AnimatedSwitch = withRouter(({ location }) => (
           timeout={10} 
           key={location.key}>
       <Switch location={location}>
-        < Route exact path="/index.html" component={Main} />
+        <Route exact path="/index.html" component={Main} />
         <Route path="/students/:id" component={StudentCard} />
+        <Route path="/uploadNew" component={NewFileUpload}/>
       </Switch>
       </CSSTransition>
     </TransitionGroup>  
