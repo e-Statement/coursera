@@ -1,7 +1,6 @@
 import {useState, useRef, useMemo} from 'react';
 import '../styles/mainpage.css';
 import Filters from "./Filters"
-import Unload from "./Unload"
 import { useHistory } from 'react-router-dom'
 
 const Student = ({student}) => {
@@ -94,7 +93,6 @@ const Main = () => {
     <div className="main-page">
     <header className="header">
       <Filters setStudents={setStudents} icon={icon}/>
-      <Unload />
     </header>
     <main className="students">
       {students.length !== 0 && <StudentsTable students={students}/>}
