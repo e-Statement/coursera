@@ -1,7 +1,7 @@
 import { Button, TextField } from '@material-ui/core';
 import { useState, useEffect } from 'react';
 import Select from 'react-select'
-import { getUsers, getSpecializations, getCourses} from '../Requests'
+import {getUsers, getSpecializations, getCourses, unloadByCoursesAsync, unloadBySpecializationAsync} from '../Requests'
 import "../styles/filters.css"
 
 
@@ -50,6 +50,10 @@ const Filters = ({setStudents, icon}) => {
     </div>
     <div className="filter-buttons">
       <Button variant="contained" color="primary" onClick={async () => await clickHandler()}>Найти</Button>
+    </div>
+    <div className="unload-buttons">
+      <Button variant="contained" color="primary" onClick={() => unloadBySpecializationAsync(filters.specializations)}>Выгрузить по специализации</Button>
+      <Button variant="contained" color="primary" onClick={() => unloadByCoursesAsync(filters.courses)}>Выгрузить по курсам</Button>
     </div>
     
   </div>)

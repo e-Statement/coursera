@@ -50,7 +50,7 @@ export const unloadBySpecializationAsync = async (specializationName) => {
             document.body.appendChild(a)
             a.style = "display: none"
             a.href = href
-            a.download = `${specializationName}.xlsx`
+            a.download = "Specializations.xlsx"
             a.click()
         })
 
