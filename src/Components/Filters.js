@@ -1,4 +1,4 @@
-import { Button, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import { useState, useEffect } from 'react';
 import Select from 'react-select'
 import { getUsers, getSpecializations, getCourses} from '../Requests'
@@ -34,12 +34,6 @@ const Filters = ({setStudents, icon}) => {
           
         icon.current.hidden = true;
     }
-    
-    const orderBy = [
-      {value:  "hours", label: "Часы обучения"},
-      {value: "grade", label: "Оценка за курс"},
-      {value: "name", label: "Имя"}
-    ]
 
     const specializationsOptions = specializations.map(spec => {return {value: spec, label: spec}})
     const coursesOptions = courses.map(course => {return {value: course, label: course}})
@@ -53,22 +47,8 @@ const Filters = ({setStudents, icon}) => {
       <Select className="courses select" options={coursesOptions} isMulti placeholder="Курсы" onChange={(e) => {
         setFilters({...filters,courses:e.map(course => course.value)})
       }}/>
-      <Select className="courses select" options={orderBy} placeholder="Сортировка" onChange={(e) => {
-        setFilters({...filters,orderBy: e.value})
-      }}/>
     </div>
     <div className="filter-buttons">
-      <FormControlLabel style={{display: "block"}}
-            control={
-              <Checkbox
-                color="primary"
-                onChange={e => {
-                  setFilters({...filters,isDescending:e.target.checked})
-                }}
-              />
-            }
-            label="По убыванию"
-          />
       <Button variant="contained" color="primary" onClick={async () => await clickHandler()}>Найти</Button>
     </div>
     
