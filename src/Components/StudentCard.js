@@ -1,6 +1,6 @@
 //eslint-disable-next-line
 import datejs from 'datejs'
-import { useState, useEffect } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Specializations from './Specializations'
 import Course from './Course'
@@ -8,6 +8,7 @@ import { useParams  } from "react-router-dom";
 import { getUser } from '../Requests'
 import { Link } from 'react-router-dom'
 import "../styles/studentcard.css"
+import Filters from "./Filters";
 
 
 
@@ -15,7 +16,7 @@ const StudentCard = () => {
     let { id } = useParams();
     console.log(id);
     const [student, setStudent] = useState(null)
-
+    const icon = useRef(null)
     useEffect(() => {
         const getAsync = async () => {
             const getStudentResult = await getUser(id);
@@ -25,8 +26,10 @@ const StudentCard = () => {
     },[id])
     console.log(student);
     return (
+        <div>
+            <Filters icon={icon} />
         <div className="student-card">
-        {student != null 
+        {student != null
         ? 
         <>
         <Link to="/index.html">
@@ -45,6 +48,7 @@ const StudentCard = () => {
         </>
         : <h2>Not Found</h2>
         }
+        </div>
         </div>
     )
 }

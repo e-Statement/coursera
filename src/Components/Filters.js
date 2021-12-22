@@ -1,12 +1,16 @@
 import { Button, TextField } from '@material-ui/core';
 import { useState, useEffect } from 'react';
+import React from 'react';
 import Select from 'react-select'
 import { getUsers, getSpecializations, getCourses} from '../Requests'
 import "../styles/filters.css"
+import {FilterContext} from "../utils/store";
+import { Link } from 'react-router-dom'
 
 
 const Filters = ({setStudents, icon}) => {
-  const [filters,setFilters] = useState({name: "", specializations:[], courses: [], orderBy:"name", isDescending: false})
+  const [filters, setFilters] = React.useContext(FilterContext).filters
+  const [ctxStudents, ctxSetStudents] = React.useContext(FilterContext).students
   const [courses, setCourses] = useState([])
   const [specializations, setSpecializations] = useState([])
 
@@ -25,44 +29,59 @@ const Filters = ({setStudents, icon}) => {
   },[])
 
     const clickHandler = async () => {
-      icon.current.hidden = false;
+      if (!setStudents)
+        setStudents = ctxSetStudents
+
+      if (icon.current)
+        icon.current.hidden = false
+
       setStudents([])
         const getUsersResult = await getUsers(filters)
         if (getUsersResult) {
           setStudents(getUsersResult.students || [])
         }
-          
-        icon.current.hidden = true;
+
+      if (icon.current)
+        icon.current.hidden = true
     }
 
     const specializationsOptions = specializations.map(spec => {return {value: spec, label: spec}})
     const coursesOptions = courses.map(course => {return {value: course, label: course}})
-  
+    const filterSpecsOptions = filters.specializations.map(spec => {return {value: spec, label: spec}})
+    const filterCoursesOptions = filters.courses.map(course => {return {value: course, label: course}})
+
     return (<div className="filters">
     <div>
       <Input setFilters={setFilters} filters={filters}/>
-      <Select className="specs select" options={specializationsOptions} isMulti placeholder="Специализации" onChange={(e) => {
+      <Select className="specs select" options={specializationsOptions} isMulti placeholder="Специализации" defaultValue = {filterSpecsOptions} onChange={(e) => {
         setFilters({...filters,specializations:e.map(spec => spec.value)})
       }}/>
-      <Select className="courses select" options={coursesOptions} isMulti placeholder="Курсы" onChange={(e) => {
+      <Select className="courses select" options={coursesOptions} isMulti placeholder="Курсы" defaultValue = {filterCoursesOptions} onChange={(e) => {
         setFilters({...filters,courses:e.map(course => course.value)})
       }}/>
     </div>
     <div className="filter-buttons">
-      <Button variant="contained" color="primary" onClick={async () => await clickHandler()}>Найти</Button>
+      {window.location.pathname !== "/index.html" && <Link to="/index.html">
+        <Button variant="contained" color="primary" onClick={async () => await clickHandler()}>Найти</Button>
+      </Link>
+      }
+      {window.location.pathname === "/index.html" &&
+          <Button variant="contained" color="primary" onClick={async () => await clickHandler()}>Найти</Button>
+      }
     </div>
-    
+
   </div>)
   }
 
-  const Input = ({filters,setFilters}) => {
-    return <TextField 
-    className="input"
-     label="Имя студента" 
+const Input = ({filters, setFilters}) => {
+  return <TextField
+      className="input"
+      label="Имя студента"
       variant="outlined"
+      value={filters.name}
       onChange={async (e) => {
-            setFilters({...filters,name: e.target.value})
-          }} />
-  }
+        setFilters({...filters, name: e.target.value})
+      }}/>
+}
 
   export default Filters;
