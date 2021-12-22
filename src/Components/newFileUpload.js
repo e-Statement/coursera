@@ -12,6 +12,10 @@ const NewFileUpload = () =>
         informLabel.textContent = "подождите, парсинг занимает около 5 минут";
 
         UploadNewFile(new FormData(form)).
+        then(resp => {
+            if(!resp.ok)
+                informLabel.innerText = "Произошла необраотанная ошибка, попробуйте снова";
+        }).
         then(x=>x.json()).
         then(resp=>
         {
@@ -19,7 +23,6 @@ const NewFileUpload = () =>
             if (resp.isSuccess !== true)
                 resultText+="\n\rсообщение: "+resp['errorText']+"\n\rstatusCode"+resp['statusCode'];
             informLabel.innerText = resultText;
-
         });
     }
        return(
