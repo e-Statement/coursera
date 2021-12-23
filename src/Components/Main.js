@@ -2,7 +2,9 @@ import {useState, useRef, useMemo} from 'react';
 import '../styles/mainpage.css';
 import Filters from "./Filters"
 import Unload from "./Unload"
+import React from 'react';
 import { useHistory } from 'react-router-dom'
+import {FilterContext} from "../utils/store";
 
 const Student = ({student}) => {
 
@@ -87,7 +89,7 @@ const StudentsTable = ({students}) => {
 
 
 const Main = () => {
-  const [students, setStudents] = useState([])
+  const [students, setStudents] = React.useContext(FilterContext).students
   const icon = useRef(null)
 
   return (
