@@ -1,9 +1,10 @@
 .filters {
-    width: 500px;
+    position: fixed;
+    width: 35%;
 }
 
 .input {
-    width: 500px;
+    width: 100%;
 }
 
 .filter-buttons {

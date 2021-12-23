@@ -4,7 +4,7 @@ import Course from "./Course";
 const Specializations = ({specializations}) => {
     return (
         <div className="specializations">
-            <h1 id="specs-title">Специализации</h1>
+            <h3 id="specs-title">Специализации</h3>
             <div>
                 {specializations.map(spec => 
                     <Specialization key={Math.random() * 1000} specialization={spec}/>
@@ -25,7 +25,7 @@ const Specialization = ({specialization}) => {
     }
     const Button = () => {
         return (<div className="spec-title">
-            <h4>{title}</h4>
+            <h5>{title}</h5>
             <div className="spec-stats">
                 <h6>Завершено {completedCourseCount || 0} из {courseCount}</h6>
                 <h6>Средняя оценка: {averageGrade.toFixed(2)} из 100</h6>

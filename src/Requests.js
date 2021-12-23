@@ -1,4 +1,4 @@
-import { postRequest, getRequest } from './utils';
+import { postRequest, getRequest } from './utils/utils';
 import settings from './settings.json'
 import * as url from "url";
 
