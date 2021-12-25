@@ -35,7 +35,8 @@ const StudentCard = () => {
         <Link to="/index.html">
             <ArrowBackIcon style={{ fontSize: 40, cursor:"pointer" }} className="back" onClick={() => {}}/>
         </Link>
-            <h2>Студент: {student.fullName} {student.group}</h2>
+            <h2>Студент: {student.fullName}</h2>
+            <h3>{student.group}</h3>
             <br/>
             {(student.specializations.length !== 0
             ? <Specializations specializations={student.specializations} />
