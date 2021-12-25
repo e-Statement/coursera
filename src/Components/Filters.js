@@ -72,15 +72,19 @@ const Filters = ({setStudents, icon}) => {
         setFilters({...filters,courses:e.map(course => course.value)})
       }}/>
     </div>
-    <div className="filter-buttons">
+    <div>
       {window.location.pathname !== "/index.html" && <Link to="/index.html">
-        <Button variant="contained" color="primary" onClick={async () => await clickHandler()}>Найти</Button>
-        <Upload/>
+        <div className="filter-buttons">
+          <Button variant="contained" color="primary" onClick={async () => await clickHandler()}>Найти</Button>
+          <Upload/>
+        </div>
       </Link>
       }
       {window.location.pathname === "/index.html" &&
-          <Button variant="contained" color="primary" onClick={async () => await clickHandler()}>Найти</Button>
-          <Upload/>
+          <div className="filter-buttons">
+            <Button variant="contained" color="primary" onClick={async () => await clickHandler()}>Найти</Button>
+            <Upload/>
+          </div>
       }
     </div>
     <div className="unload-buttons">

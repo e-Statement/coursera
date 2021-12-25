@@ -8,18 +8,24 @@ const NewFileUpload = () =>
     {
         let form = document.getElementById("uploadForm");
         let informLabel = document.getElementById("informLabel");
+        let sendButton = document.getElementById("sendButton");
+        sendButton.setAttribute('disabled', 'disabled');
 
         informLabel.textContent = "подождите, парсинг занимает около 5 минут";
 
         UploadNewFile(new FormData(form)).
         then(resp => {
             if(!resp.ok)
-                informLabel.innerText = "Произошла необраотанная ошибка, попробуйте снова";
+                informLabel.innerText = "Произошла ошибка, попробуйте снова";
+
+            sendButton.removeAttribute("disabled");
+
+            return resp;
         }).
         then(x=>x.json()).
         then(resp=>
         {
-            let resultText = "успешно: "+resp['isSuccess'];
+            let resultText = resp['isSuccess'] ? "Успешно" : "Произошла ошибка";
             if (resp.isSuccess !== true)
                 resultText+="\n\rсообщение: "+resp['errorText']+"\n\rstatusCode"+resp['statusCode'];
             informLabel.innerText = resultText;
@@ -32,16 +38,16 @@ const NewFileUpload = () =>
                </Link>
                <form id="uploadForm" encType="multipart/form-data" >
                    <p>Загрузите файлы</p>
-                   <label>студенты</label>
+                   <label>Студенты</label>
                    <p><input  type='file' name="students" multiple accept="text/csv"/></p>
-                   <label>специализации</label>
+                   <label>Специализации</label>
                    <p><input  type='file' name="specializations" multiple accept="text/csv"/></p>
-                   <label>курсы</label>
+                   <label>Курсы</label>
                    <p><input  type='file' name="courses" multiple accept="text/csv"/></p>
-                   <label>задания</label>
+                   <label>Задания</label>
                    <p><input  type='file' name="assignments" multiple accept="text/csv"/></p>
                </form>
-               <div><button onClick={buttonHandler}>Send</button></div>
+               <div><button onClick={buttonHandler} id="sendButton">Загрузить</button></div>
                <div><label id="informLabel"></label></div>
         </div>)
 
