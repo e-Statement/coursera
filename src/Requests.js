@@ -35,14 +35,18 @@ export const Authorize = async (email: string, password: string) => {
         .catch(err => console.log("cant get users from /courses " + err))
 }
 
-export const unloadBySpecializationAsync = async (specializationName) => {
-    console.log(JSON.stringify(specializationName));
-    const respData = await fetch(`${settings.serverEndpoint}/unload/specialization`, {
+export const unload = async ({courses, specializations}) => {
+    console.log("getting unload..");
+    console.log({
+        'courses': JSON.stringify(courses??[]),
+        'specializations': JSON.stringify(specializations??[])
+    })
+    const respData = await fetch(`${settings.serverEndpoint}/unload`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(specializationName)
+        body: JSON.stringify({courses: courses,specializations: specializations })
     }).then((response) => response.blob())
         .then((blob) => URL.createObjectURL(blob))
         .then((href) => {
@@ -50,29 +54,7 @@ export const unloadBySpecializationAsync = async (specializationName) => {
             document.body.appendChild(a)
             a.style = "display: none"
             a.href = href
-            a.download = `${specializationName}.xlsx`
-            a.click()
-        })
-
-    return respData;
-}
-
-export const unloadByCoursesAsync = async (courses) => {
-    console.log(JSON.stringify(courses));
-    const respData = await fetch(`${settings.serverEndpoint}/unload/courses`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(courses)
-    }).then((response) => response.blob())
-        .then((blob) => URL.createObjectURL(blob))
-        .then((href) => {
-            const a = document.createElement("a")
-            document.body.appendChild(a)
-            a.style = "display: none"
-            a.href = href
-            a.download = "Courses.xlsx"
+            a.download = "Выгрузка Coursera.xlsx"
             a.click()
         })
 
