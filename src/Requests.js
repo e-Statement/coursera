@@ -37,15 +37,16 @@ export const Authorize = async (email: string, password: string) => {
 
 export const unload = async ({courses, specializations}) => {
     console.log("getting unload..");
+    console.log({
+        'courses': JSON.stringify(courses??[]),
+        'specializations': JSON.stringify(specializations??[])
+    })
     const respData = await fetch(`${settings.serverEndpoint}/unload`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body:{
-            'courses': JSON.stringify(courses),
-            'specializations': JSON.stringify(specializations)
-        }
+        body: JSON.stringify({courses: courses,specializations: specializations })
     }).then((response) => response.blob())
         .then((blob) => URL.createObjectURL(blob))
         .then((href) => {

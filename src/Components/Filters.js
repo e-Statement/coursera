@@ -52,7 +52,7 @@ const Filters = ({setStudents, icon}) => {
       <Button variant="contained" color="primary" onClick={async () => await clickHandler()}>Найти</Button>
     </div>
     <div className="unload-buttons">
-      <Button variant="contained" color="primary" onClick={() => unload({courses:filters.courses, specializations:filters.specialization})}>Выгрузить</Button>
+      <Button variant="contained" color="primary" onClick={() => unload({courses:filters.courses, specializations:filters.specializations})}>Выгрузить</Button>
     </div>
     
   </div>)
