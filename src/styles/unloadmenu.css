@@ -1,9 +1,0 @@
-.unload-menu > * {
-    margin: 5px;
-}
-
-.unload-menu .unload-buttons {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-}
