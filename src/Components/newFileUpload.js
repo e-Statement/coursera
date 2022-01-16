@@ -11,7 +11,7 @@ const NewFileUpload = () =>
         let sendButton = document.getElementById("sendButton");
         sendButton.setAttribute('disabled', 'disabled');
 
-        informLabel.textContent = "подождите, парсинг занимает около 5 минут";
+        informLabel.textContent = "Подождите, загрузка занимает около 5 минут";
 
         UploadNewFile(new FormData(form)).
         then(resp => {
